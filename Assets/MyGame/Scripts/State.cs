@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(menuName = "State")]
-public class State : ScriptableObject{
+public class State : ScriptableObject
+{
 
     //private static readonly System.Random getrandom = new System.Random(123);
 

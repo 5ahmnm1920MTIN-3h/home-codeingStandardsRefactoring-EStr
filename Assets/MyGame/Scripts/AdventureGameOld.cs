@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
 
 public class AdventureGameOld : MonoBehaviour {
 
@@ -55,7 +52,8 @@ public class AdventureGameOld : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start () 
+    {
         actualState = startingState;
         textIntroComponent.text = actualState.GetStateStory();
         textComponentChoises.text = actualState.GetStateStoryMenue();
@@ -70,7 +68,8 @@ public class AdventureGameOld : MonoBehaviour {
 	}
 
     // Update is called once per frame
-    void Update () {
+    void Update () 
+    {
         ManageState();
 	}
 
