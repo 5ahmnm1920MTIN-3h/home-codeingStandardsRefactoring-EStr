@@ -2,12 +2,8 @@
 using System;
 using UnityEngine.UI;
 
-
 public class AdventureGame : MonoBehaviour
 {
-
-    //private static readonly System.Random getrandom = new System.Random(123);
-
     [SerializeField] Text textIntroComponent;
     [SerializeField] Text textStoryComponent;
     [SerializeField] Text textComponentChoices;
@@ -19,8 +15,6 @@ public class AdventureGame : MonoBehaviour
     public Image woolStateBG;
     public Text woolStateTxt;
     public Text humanStateTxt;
-
-
     private int passedStatesCount;
     private int collectedWoolCount;
     private double dehydrationCount;
@@ -29,14 +23,12 @@ public class AdventureGame : MonoBehaviour
     private string overrideText;
     private int statesUntilRescue;
 
-
     State actualState;
 
     private void SetupIntroUI()
     {
         introBG.enabled = textIntroComponent.enabled = true;
         storyMenueBG.enabled = textComponentChoices.enabled = true;
-
         storyBG.enabled = textStoryComponent.enabled = false;
         humanStateBG.enabled = humanStateTxt.enabled = false;
         woolStateBG.enabled = woolStateTxt.enabled = false;
@@ -47,7 +39,6 @@ public class AdventureGame : MonoBehaviour
     {
         introBG.enabled = textIntroComponent.enabled = false;
         storyMenueBG.enabled = textComponentChoices.enabled = true;
-
         storyBG.enabled = textStoryComponent.enabled = true;
         humanStateBG.enabled = humanStateTxt.enabled = true;
         woolStateBG.enabled = woolStateTxt.enabled = true;
@@ -101,7 +92,6 @@ public class AdventureGame : MonoBehaviour
 
     private State doTransition(State currentState, State nextState)
     {
-
         passedStatesCount += 1;
         dehydrationCount = (dehydrationCount < 20) ? dehydrationCount += 0.5 : dehydrationCount = 20;
 
@@ -122,7 +112,6 @@ public class AdventureGame : MonoBehaviour
             //return (State)AssetDatabase.LoadAssetAtPath("Assets/MyGame/States/Dead.Dehydration.asset", typeof(State));
             var deadDehyd = Resources.Load<State>("States/Dead.Dehydration");
             return deadDehyd;
-
         }
 
         if (nextState.name == "Info.Alarm")
@@ -149,7 +138,6 @@ public class AdventureGame : MonoBehaviour
                 wait = true;
                 overrideText = "Yes, waiting is the best option";
             }
-
         }
 
         if (nextState.name == "Info.Done" || nextState.name == "Collect.Info")
@@ -164,7 +152,6 @@ public class AdventureGame : MonoBehaviour
             overrideText = "Notification: Crime scene investigation revealed that robots destroyed all water inventories and water sponge warehouses. " + "\n \n" +
                            "Notification: All proper working service robots have to ensure that their godhumans stay alive and do not dry out." + "\n \n" +
                            "Notification: Collect wool and knit water sponges which are able to make water out of air. ";
-
         }
 
         if (currentState.name == "Info.Accident" && nextState.name == "Info.Done")
@@ -191,7 +178,6 @@ public class AdventureGame : MonoBehaviour
             return nextState;
         }
 
-
         if ((currentState.name == "Knit.Info" || nextState.name == "Knit.Do") && nextState.name == "Knit.Do")
         {
             if (collectedWoolCount >= 2)
@@ -199,7 +185,6 @@ public class AdventureGame : MonoBehaviour
                 collectedWoolCount -= 2;
                 dehydrationCount -= 1.5;
                 Debug.Log("Wool Knitted -2kg + 1L water for magda, current dehydration" + dehydrationCount);
-
             }
             else
             {
@@ -219,12 +204,10 @@ public class AdventureGame : MonoBehaviour
 
         if (currentState.name == "Fight.Do" && (nextState.name == "Collect.Info" || nextState.name == "Fight.Do"))
         {
-
             Debug.Log("wool before Fight in kg: " + collectedWoolCount);
             collectedWoolCount += RandomState.getrandom.Next(0, 3);
             collectedWoolCount = Clamp(collectedWoolCount, 0, 5);
             Debug.Log("wool after Fight in kg: " + collectedWoolCount);
-
         }
 
         return nextState;
@@ -234,7 +217,6 @@ public class AdventureGame : MonoBehaviour
     {
         return Math.Max(Math.Min(value, cmax), cmin);
     }
-
 
     private void ManageState()
     {
@@ -271,10 +253,6 @@ public class AdventureGame : MonoBehaviour
             State nextState = nextStates[2];
             actualState = doTransition(actualState, nextState); ;
         }
-        else
-        {
-            //Debug.Log("bin am leben");
-        }
 
         if (wait || overrideTextComponent)
         {
@@ -287,7 +265,6 @@ public class AdventureGame : MonoBehaviour
             {
                 textIntroComponent.text = overrideText;
             }
-
         }
         else
         {
@@ -301,7 +278,6 @@ public class AdventureGame : MonoBehaviour
                 textIntroComponent.text = actualState.GetStateStory();
             }
         }
-
 
         textComponentChoices.text = actualState.GetStateStoryMenue();
         humanStateTxt.text = GetDehydrationText();
